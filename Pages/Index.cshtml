@@ -1,0 +1,35 @@
+﻿
+@page
+@model IndexModel
+@using System.Configuration;
+@using System.Diagnostics;
+
+@{
+    ConfigurationManager config = new ConfigurationManager();
+    IConfigurationSection conf = config.GetSection("Logging");
+
+    ViewData["Title"] = "Home page";
+    string path = "./appsettings.json";
+    string[] text = System.IO.File.ReadAllLines(path);
+
+    void GetTime2(){
+        while (true)
+        {
+            Thread.Sleep(1000);
+            ViewData["Date"] = DateTime.Now;
+            Debug.WriteLine(ViewData["Date"]);
+        }
+
+    }
+    Thread t = new Thread(new ThreadStart(GetTime2));
+    t.Start();
+}
+
+<div class="text-center">
+    <h1 class="display-4">Hello world!</h1>
+    <p>@DateTime.Now.ToShortTimeString()</p>
+    <h2>@ViewData["Date"]</h2>
+    <p>@text[8]</p>
+    <p>@ViewData["MySetting"]</p>
+    <asp:HiddenField ID="hdna" value="12" runat="server" />
+</div>
